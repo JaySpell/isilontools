@@ -11,11 +11,25 @@ from ad_auth import ADAuth
 from user import User
 import ldap
 
+all_users = {}
+
+@login_manager.user_loader
+def load_user(username):
+    '''
+    Loads user from the currently authenticated AD user
+    '''
+    try:
+        if username in all_users.keys():
+            user = User(username)
+            user.id = username
+            return user
+    except:
+        return None
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello World!!"
+    return render_template('test2.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -29,23 +43,20 @@ def login():
         '''Get the username / password from form'''
         username = myform.username.data
         password = myform.password.data
-
         '''Attempt login using the ADAuth class'''
         auth = ADAuth(username, password)
         try:
             if auth.check_group_for_account() == True:
+                all_users[username] = None
                 user = User(unicode(auth.user))
                 login_user(user)
-                app.users[username] = None
-                session['user'] = username
-                if not next_is_valid(next):
-                    return flask.abort(400)
-
-                return redirect(next or url_for('quota'))
+                '''if not next_is_valid(next):
+                    return flask.abort(400)'''
+                return redirect(url_for('quota'))
         except:
-            error = "Invalid credentials..."
-    else:
-        return render_template("login.html", form=myform, error=error)
+            error = "Invalid credentials %s..." % user
+
+    return render_template("login.html", form=myform, error=error)
 
 @app.route('/quota', methods=['GET', 'POST'])
 @login_required
@@ -105,7 +116,7 @@ def cost():
 
         '''Add data to database'''
         quota_add = f_DB.create(cust_fname=cust_fname,
-            cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent)
+            cust_lname=cust_lname, sc_account=current_user, cost_cent=cost_cent)
 
         '''Set current quota == current_quota + 100GB'''
         current_thresh = tool.get_quota_size(name)
@@ -134,3 +145,11 @@ def quotas_radio_return(quotas):
     form.itemid.choices = tuple_data
 
     return form
+
+@app.errorhandler(400)
+def abort_page(e):
+    return render_template('400.html', error=e), 400
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', error=e), 404

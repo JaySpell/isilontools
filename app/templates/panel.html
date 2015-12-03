@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<div class="panel panel-danger">
+<div class="panel-heading">
+  <h6 class="panel-title">{{ title|e }}</h6>
+</div>
+<div class="panel-body">
+<form class="" method="post">
+
+    {% block panel %}
+    {% endblock %}
+  </div>
+</div>
+</div>
+</div>
+<div class="col-md-4"></div>
+</div>
+{% endblock %}

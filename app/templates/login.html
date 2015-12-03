@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+  <div class="col-md-8">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+  <h6 class="panel-title">Login</h6>
+  </div>
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+    <div class="panel-body">
+  <form action="" method=post>
+    <div class="form-group">
+    <dl>
+      <dt>Username:
+      <dd><input type=text name=username>
+      <dt>Password:
+      <dd><input type=password name=password>
+      <dd><input type=submit value=Login>
+    </dl>
+  </div>
+  </form>
+</div>
+</div>
+</div>
+<div class="col-md-4"></div>
+</div>
+</div>
+{% endblock %}

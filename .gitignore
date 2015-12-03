@@ -1,0 +1,14 @@
+**idea/
+**bin/
+**local/
+**include/
+**lib/
+*.pyc
+app/config.py
+config.py
+secret.py
+app/secret.py
+*.db
+run_tools.py
+testing_login.py
+app/templates/test2.html

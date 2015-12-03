@@ -9,16 +9,16 @@ UPN_SUFFIX = secret.get_upn()
 class ADAuth(object):
 
     def __init__(self, username, passwd, upn=UPN_SUFFIX):
-        self.user = username + upn
+        self.upn_id = username + upn
         self.password = passwd
-
+        self.user = username
 
     def authenticate(self, server=SERVER_LDAP):
         conn = ldap.initialize('ldap://' + server)
         conn.protocol_version = 3
         conn.set_option(ldap.OPT_REFERRALS, 0)
         try:
-            results = conn.simple_bind_s(self.user, self.password)
+            results = conn.simple_bind_s(self.upn_id, self.password)
         except ldap.INVALID_CREDENTIALS:
             error_return = "Username / Password incorrect..."
         except ldap.SERVER_DOWN:
@@ -35,7 +35,7 @@ class ADAuth(object):
                                 auth_group=AUTH_GROUP):
         is_member = False
         conn = self.authenticate()
-        s_user = "CN=" + self.user.split('@')[0]
+        s_user = "CN=" + self.upn_id.split('@')[0]
 
         results = conn.search_s(basedn, ldap.SCOPE_SUBTREE,"(cn=%s)" % auth_group)
 

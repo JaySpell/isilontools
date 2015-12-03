@@ -19,7 +19,7 @@ class Quotas_DB(Model):
         Setup DB table / rows if doesn't exist
         '''
         quota_db.connect()
-        quota_db.create_tables([Quotas], safe=True)
+        quota_db.create_tables([Quotas_DB], safe=True)
 
     def get_transactions(request_date):
         pass
@@ -32,11 +32,11 @@ class Users_DB(Model):
 
     def setup_db():
         user_db.connect()
-        user_db.create_tables([Users], safe=True)
+        user_db.create_tables([Users_DB], safe=True)
 
 
 if __name__ == "__main__":
     quota_db.connect()
-    quota_db.create_tables([Quotas], safe=True)
+    quota_db.create_tables([Quotas_DB], safe=True)
     user_db.connect()
-    user_db.create_tables([Users], safe=True)
+    user_db.create_tables([Users_DB], safe=True)

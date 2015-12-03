@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <div class="row">
+            <div class="col-md-6" id="base"><h3>Base Return</h3>
+                {% for system, value in base_return.iteritems() %}
+                    <br>{{ system|e }} - {{ value|e }}
+                {% endfor %}
+            </div>
+            <div class="col-md-6" id ="current"><h3>Current Return</h3>
+            {% for system, value in the_return.iteritems() %}
+                        {% if value is number %}
+                             <br>{{ system|e }} - {{ value }}
+                        {% else %}
+                            {% if value[:3] == "***" %}
+                                <br><font color="red">{{ system|e }} - {{ value }}</font>
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+{% endblock %}

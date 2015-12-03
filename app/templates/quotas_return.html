@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+               <div class="col-md-4" id="base"><h3>Base Return</h3>
+                {%- for quota in all_quotas %}
+                   {%- for path, id in quota.items() %}
+                    <dl><dt class="sysgroup-li" data-target=".{{ id }}">{% filter upper %}{{ path|e }}{% endfilter %}</dt>
+                    {%- endfor %}
+                {%- endfor %}
+                </dl>
+               </div>
+            </div>
+        </div>
+    </div>
+ {% endblock %}

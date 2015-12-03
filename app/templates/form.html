@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <form action="" method="post" name="quotamod">
+        <div class="form-group">
+        <label for="quotamod">Share / Directory Name:</label>
+            </div>
+        {{ form.hidden_tag() }}
+        <div class="form-group">{{ form.name(size=80) }}</div>
+<button type="submit" class="btn btn-success">Search</button>
+    </form>
+    </div>
+{% endblock %}

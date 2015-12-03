@@ -112,11 +112,11 @@ def cost():
         cust_fname = myform.cust_fname.data
         cust_lname = myform.cust_lname.data
         cost_cent = myform.cost_center.data
-        sc_account = session['user']
+        sc_account = current_user
 
         '''Add data to database'''
-        quota_add = f_DB.create(cust_fname=cust_fname,
-            cust_lname=cust_lname, sc_account=current_user, cost_cent=cost_cent)
+        quota_add = Quotas_DB.create(cust_fname=cust_fname,
+            cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent)
 
         '''Set current quota == current_quota + 100GB'''
         current_thresh = tool.get_quota_size(name)

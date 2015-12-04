@@ -124,8 +124,6 @@ def cost():
         new_thresh = tool.get_quota_size(name)
         new_thresh_GB = pro_utils.convert_to_GB(new_thresh)
 
-
-
         return render_template('finish.html', name=name, new_limit=new_thresh_GB)
 
     return render_template('cost.html', form=myform,

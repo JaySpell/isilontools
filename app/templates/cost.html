@@ -1,26 +1,23 @@
-{% extends "panel.html" %}
-{% block panel %}
+{% extends "panel.html" %} {% block panel %}
 <span class="label label-danger" id="cust_fname">Customer First Name</span>
 <div class="form-group">
-<div class="input group">
+  <div class="input group">
     {{ form.cust_fname(size=20, test="test", class_="form-control") }}
-</div>
+  </div>
 </div>
 <span class="label label-danger" id="basic-addon2">Customer Last Name</span>
 <div class="form-group">
-<div class="input group">
+  <div class="input group">
     {{ form.cust_lname(class_="form-control") }}
-</div>
+  </div>
 </div>
 <span class="label label-danger" id="basic-addon3">Cost Center</span>
 <div class="form-group">
-<div class="input group">
-  {{ form.cost_center(class_="form-control") }}
-</div>
+  <div class="input group">
+    {{ form.cost_center(class_="form-control") }}
+  </div>
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-success">{{ btn_txt }}</button>
+  <button type="submit" class="btn btn-danger">{{ btn_txt }}</button>
 </div>
-
-
 {% endblock %}

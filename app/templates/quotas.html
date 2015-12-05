@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h6 class="panel-title">List of Quotas Matching Query</h6>
+          </div>
+          <div class="panel-body" class="panel panel-warning">
+            <form class="" method="post">
+              <div class="form-group">
+                {{ form.hidden_tag() }} {{ form.itemid }}
+                <div>
+                  <button type="submit" class="btn btn-warning">Select Quota</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

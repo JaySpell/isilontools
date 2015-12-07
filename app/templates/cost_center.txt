@@ -1,0 +1,6 @@
+Following customer has requested an increase in quota space.
+
+Customer First Name: {{ cust_fname }}
+Customer Last Name: {{ cust_lname }}
+Cost Center: {{ cost_cent }}
+Support Center: {{ sc_account }}

@@ -119,13 +119,24 @@ def cost():
         quota_add = Quotas_DB.create(cust_fname=cust_fname,
             cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent)
 
+        '''Send email'''
+        cost_dict = {
+                'cust_fname': cust_fname,
+                'cust_lname': cust_lname,
+                'cost_cent': cost_cent,
+                'sc_account': sc_account
+        }
+        email_status = pro_utils.send_email(cost_dict)
+
+
         '''Set current quota == current_quota + 100GB'''
         current_thresh = tool.get_quota_size(name)
         tool.update_quota(name, current_thresh)
         new_thresh = tool.get_quota_size(name)
         new_thresh_GB = pro_utils.convert_to_GB(new_thresh)
 
-        return render_template('finish.html', name=name, new_limit=new_thresh_GB)
+        return render_template('finish.html', name=name,
+            new_limit=new_thresh_GB, email_status=email_status)
 
     return render_template('cost.html', form=myform,
         btn_txt="Add Space", title="Enter Customer Name & Cost Center")

@@ -2,9 +2,10 @@ __author__ = 'kcup'
 import os
 from os import listdir
 import json
+import config
 from os.path import isfile, join
 from pprint import pprint
-from flask.ext.mail import Mail
+from app import app
 
 
 '''
@@ -209,5 +210,45 @@ def get_new_threshold(response):
         threshold = quota['thresholds']['hard']
     return int(threshold)
 
-def send_the_email():
-    pass
+def send_email(cost_dict):
+    '''
+    Will send an email to users specified in ADMINS
+    with information for customer name, cost center &
+    the support center rep who filled the request
+
+    param: cost_dict({cfname: 'firstname', clname: 'lastname',
+        cost_center: 'number', sc_rep: 'userid'})
+
+    return:
+    '''
+    from flask.ext.mail import Message
+    from app import mail
+    from flask import render_template
+
+    MAIL_SERVER = config.MAIL_SERVER
+    MAIL_PORT = config.MAIL_PORT
+    MAIL_USE_TLS = config.MAIL_USE_TLS
+    MAIL_USE_SSL = config.MAIL_USE_SSL
+    ADMINS = config.ADMINS
+
+    msg = Message('Quota Space Addition', sender='QuotaMod@mhhs.org',
+        recipients=ADMINS)
+
+    msg.body = render_template('cost_center.txt',
+            cust_lname=cost_dict['cust_lname'],
+            cust_fname=cost_dict['cust_fname'],
+            cost_cent=cost_dict['cost_cent'],
+            sc_account=cost_dict['sc_account']
+        )
+    msg.html = render_template('cost_center_email.html',
+            cust_lname=cost_dict['cust_lname'],
+            cust_fname=cost_dict['cust_fname'],
+            cost_cent=cost_dict['cost_cent'],
+            sc_account=cost_dict['sc_account']
+        )
+
+    try:
+        mail.send(msg)
+        return "Email sent..."
+    except:
+        return "No email sent..."

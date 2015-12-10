@@ -18,7 +18,6 @@ import time
 import json
 import string
 import secret
-
 import pro_utils
 
 LastAuthTimestamp = 0
@@ -117,9 +116,10 @@ class Isilon_Tools(object):
 
     def isilon_Query_Quota(self):
         '''
-          Function loops through the query
-          - opens new file for each query
-          - save out the file
+          Function loops through the query and dumps all
+          quotas to a series of files
+            - opens new file for each query
+            - save out the file
           Query should run till output of resume == None
           :return:
         '''

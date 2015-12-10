@@ -4,8 +4,6 @@ from os import listdir
 import json
 import config
 from os.path import isfile, join
-from pprint import pprint
-from app import app
 
 
 '''

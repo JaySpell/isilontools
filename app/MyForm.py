@@ -5,7 +5,11 @@ from wtforms import (StringField, SelectField,
 from wtforms.validators import DataRequired, Required, Regexp, Length
 
 class MyForm(Form):
-    name = StringField('name', validators=[DataRequired()])
+    name = StringField('name',
+        validators=[
+            DataRequired(message='Must enter at least 4 characters...'),
+            Length(min=4),
+        ])
     size_in_gb = StringField('size', validators=[DataRequired()])
     itemid = RadioField(validators=[DataRequired()])
     cust_fname = StringField('cfname',
@@ -38,3 +42,9 @@ class LoginForm(Form):
             Length(min=6),
         ])
 
+class QuotaForm(Form):
+    name = StringField('name',
+        validators=[
+            DataRequired(message='Must enter at least 4 characters...'),
+            Length(min=4),
+        ])

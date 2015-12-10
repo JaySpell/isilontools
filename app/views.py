@@ -1,4 +1,4 @@
-from .MyForm import MyForm, LoginForm
+from .MyForm import MyForm, LoginForm, QuotaForm
 from app import app, login_manager
 from flask import (render_template, flash, redirect,
     request, url_for, session, escape, g)
@@ -59,19 +59,18 @@ def login():
     return render_template("login.html", form=myform, error=error)
 
 @app.route('/quota', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def quota():
-    myform = MyForm()
-    if request.method == 'POST':
+    myform = QuotaForm()
+    if myform.validate_on_submit():
         name = request.form.get('name')
         session['search'] = name
         return redirect(url_for('quotas'))
-
     return render_template('quota.html', title="Quota",
                                    form=myform)
 
 @app.route('/quotas', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def quotas():
     '''
     This gets returned after a query is entered - it should do the following...
@@ -102,7 +101,7 @@ def quotas_return():
     pass
 
 @app.route('/cost', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def cost():
     tool = Isilon_Tools()
     name = session['selected']

@@ -54,7 +54,7 @@ def login():
                     return flask.abort(400)'''
                 return redirect(url_for('quota'))
         except:
-            error = "Invalid credentials %s..." % user
+            error = "Invalid credentials %s..." % username
 
     return render_template("login.html", form=myform, error=error)
 

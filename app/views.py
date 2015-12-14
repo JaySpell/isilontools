@@ -5,7 +5,7 @@ from flask import (render_template, flash, redirect,
 from flask.ext.login import (current_user, login_user,
     logout_user, login_required)
 from isilon_tools import Isilon_Tools
-from db import Quotas_DB, Users_DB
+from db import Quota_Update, Users_DB
 import pro_utils
 from ad_auth import ADAuth
 from user import User
@@ -115,7 +115,7 @@ def cost():
         sc_account = current_user
 
         '''Add data to database'''
-        quota_add = Quotas_DB.create(cust_fname=cust_fname,
+        quota_add = Quota_Update.create(cust_fname=cust_fname,
             cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent)
 
         '''Send email'''

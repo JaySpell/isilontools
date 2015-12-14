@@ -5,7 +5,7 @@ from flask import (render_template, flash, redirect,
 from flask.ext.login import (current_user, login_user,
     logout_user, login_required)
 from isilon_tools import Isilon_Tools
-from db import Quota_Update, Users_DB
+from db import Quota_Update, A_User
 import pro_utils
 from ad_auth import ADAuth
 from user import User

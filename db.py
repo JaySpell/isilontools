@@ -1,10 +1,9 @@
 import datetime
 from peewee import *
 
-quota_db = SqliteDatabase('quota_add.db')
-user_db = SqliteDatabase('user.db')
+database = SqliteDatabase('quota_add.db')
 
-class Quotas_DB(Model):
+class Quota_Update(Model):
     cust_fname = CharField(max_length=50)
     cust_lname = CharField(max_length=50)
     sc_account = CharField(max_length=100)
@@ -12,31 +11,30 @@ class Quotas_DB(Model):
     date = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
-        database = quota_db
+        database = database
 
     def setup_db():
         '''
         Setup DB table / rows if doesn't exist
         '''
-        quota_db.connect()
-        quota_db.create_tables([Quotas_DB], safe=True)
+        database.connect()
+        database.create_tables([Quota_Update], safe=True)
 
     def get_transactions(request_date):
         pass
 
-class Users_DB(Model):
+class A_User(Model):
     uname = CharField(max_length=50)
 
     class Meta:
-        database = user_db
+        database = database
 
     def setup_db():
-        user_db.connect()
-        user_db.create_tables([Users_DB], safe=True)
+        database.connect()
+        database.create_tables([A_User], safe=True)
 
 
 if __name__ == "__main__":
-    quota_db.connect()
-    quota_db.create_tables([Quotas_DB], safe=True)
-    user_db.connect()
-    user_db.create_tables([Users_DB], safe=True)
+    database.connect()
+    database.create_tables([Quota_Update], safe=True)
+    database.create_tables([A_User], safe=True)

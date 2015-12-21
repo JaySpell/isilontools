@@ -2,6 +2,8 @@
 
 PHASE 1:
 * setup.py
+* bcrypt
+* add logoff / disconnect
 
 PHASE 2:
 * Quota info on quotas page

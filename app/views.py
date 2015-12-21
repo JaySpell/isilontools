@@ -59,7 +59,7 @@ def login():
     return render_template("login.html", form=myform, error=error)
 
 @app.route('/quota', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def quota():
     myform = QuotaForm()
     if myform.validate_on_submit():
@@ -70,7 +70,7 @@ def quota():
                                    form=myform)
 
 @app.route('/quotas', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def quotas():
     '''
     This gets returned after a query is entered - it should do the following...
@@ -101,7 +101,7 @@ def quotas_return():
     pass
 
 @app.route('/cost', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def cost():
     tool = Isilon_Tools()
     name = session['selected']
@@ -129,10 +129,13 @@ def cost():
 
 
         '''Set current quota == current_quota + 100GB'''
-        current_thresh = tool.get_quota_size(name)
-        tool.update_quota(name, current_thresh)
-        new_thresh = tool.get_quota_size(name)
-        new_thresh_GB = pro_utils.convert_to_GB(new_thresh)
+        try:
+            current_thresh = tool.get_quota_size(name)
+            tool.update_quota(name, current_thresh)
+            new_thresh = tool.get_quota_size(name)
+            new_thresh_GB = pro_utils.convert_to_GB(new_thresh)
+        except:
+            return render_template('404.html', error="Could not add space to quota....")
 
         return render_template('finish.html', name=name,
             new_limit=new_thresh_GB, email_status=email_status)

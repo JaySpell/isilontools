@@ -177,15 +177,14 @@ class Isilon_Tools(object):
 
     def isilon_find_quotas(self, search_string):
         '''
-
         :param search_string:
         :return:
         '''
 
         #Set variables - including globals
-        global AppDirectory
+        global APP_PATH
 
-        quotas = pro_utils.get_all_quotas(AppDirectory, search_string)
+        quotas = pro_utils.get_all_quotas(APP_PATH, search_string)
         return quotas
         '''
         for quota in quotas:

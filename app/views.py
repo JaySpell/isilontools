@@ -53,8 +53,10 @@ def login():
                 '''if not next_is_valid(next):
                     return flask.abort(400)'''
                 return redirect(url_for('quota'))
-        except:
-            error = "Invalid credentials %s..." % username
+            else:
+                raise ValueError('not member of AD group ')
+        except ValueError as e:
+            messages = unicode(e) + " invalid credentials %s..." % username
 
     return render_template("login.html", form=myform, error=error)
 

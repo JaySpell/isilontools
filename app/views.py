@@ -61,7 +61,7 @@ def login():
     return render_template("login.html", form=myform, error=error)
 
 @app.route('/quota', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def quota():
     myform = QuotaForm()
     if myform.validate_on_submit():
@@ -72,7 +72,7 @@ def quota():
                                    form=myform)
 
 @app.route('/quotas', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def quotas():
     '''
     This gets returned after a query is entered - it should do the following...
@@ -103,7 +103,7 @@ def quotas_return():
     pass
 
 @app.route('/cost', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def cost():
     tool = Isilon_Tools()
     name = session['selected']

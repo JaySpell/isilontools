@@ -9,7 +9,7 @@
   <div class="panel-heading">
   <h6 class="panel-title">Login</h6>
   </div>
-  <!--{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}-->
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
     <div class="panel-body">
   <form action="" method=post>
     {{ form.hidden_tag() }}

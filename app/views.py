@@ -56,7 +56,7 @@ def login():
             else:
                 raise ValueError('not member of AD group ')
         except ValueError as e:
-            messages = unicode(e) + " invalid credentials %s..." % username
+            error = unicode(e) + " invalid credentials %s..." % username
 
     return render_template("login.html", form=myform, error=error)
 

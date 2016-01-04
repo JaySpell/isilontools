@@ -30,7 +30,7 @@ class LoginForm(Form):
         validators=[
             DataRequired(),
             Regexp(
-                r'^[a-zA-Z0-9_]+$',
+                r'^[a-zA-Z0-9_.]+$',
                 message=("Username should be one word, letters, numbers"
                         " and underscores only.")
                 )

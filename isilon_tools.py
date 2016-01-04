@@ -36,7 +36,7 @@ HDR_CONTENT_TYPE = "Content-Type"
 HDR_COOKIE = "Cookie"
 IDLE_TIMEOUT_FACTOR = 0.9
 TIMEOUT_FACTOR = 0.75
-APP_PATH = secret.get_json_path()
+JSON_PATH = secret.get_json_path()
 
 # REST QUERY STRINGS
 AUTH_CMD = "/session/1/session"
@@ -124,7 +124,7 @@ class Isilon_Tools(object):
           :return:
         '''
         # Set variables - including globals
-        global AppDirectory
+        global JSON_PATH
         count = 1
         incomplete = True
 
@@ -134,12 +134,12 @@ class Isilon_Tools(object):
         # Query Isilon for quota data until resume == None
         # dump data to multiple files - beginning with 1
         while incomplete:
-            filename = AppDirectory + "json_out" + str(count)
+            filename = JSON_PATH + "json_out" + str(count)
 
             # If this is the first run there will not be a file to query - in this case
             # continue with the filename 1 - else grab previous run file
             if count > 1:
-                resume_file_name = AppDirectory + "json_out" + str(count - 1)
+                resume_file_name = JSON_PATH + "json_out" + str(count - 1)
                 resume = pro_utils.resume_str(resume_file_name)
             else:
                 resume = "NA"
@@ -156,7 +156,7 @@ class Isilon_Tools(object):
 
     def isilon_Run_Query(self, resume, svr_url=DEFAULT_SERVER, PAPI_Content_Cmd=QUOTA_CMD):
         global SessionCookie
-        global AppDirectory
+        global JSON_PATH
 
         if resume == "NA":
             resume_param = ""
@@ -182,9 +182,9 @@ class Isilon_Tools(object):
         '''
 
         #Set variables - including globals
-        global APP_PATH
+        global JSON_PATH
 
-        quotas = pro_utils.get_all_quotas(APP_PATH, search_string)
+        quotas = pro_utils.get_all_quotas(JSON_PATH, search_string)
         return quotas
         '''
         for quota in quotas:
@@ -209,13 +209,14 @@ class Isilon_Tools(object):
         global IdleTimeout
         global ABSTimeout
         global TEMPLATES
+        global JSON_PATH
 
         self.isilon_Connect()
 
-        filename = pro_utils.find_file(AppDirectory, search_string)
+        filename = pro_utils.find_file(JSON_PATH, search_string)
 
         if filename != "No match":
-            quota_id = pro_utils.find_quota(search_string, AppDirectory + filename)
+            quota_id = pro_utils.find_quota(search_string, JSON_PATH + filename)
 
             # Get the threshold data
             my_int = new_size
@@ -267,6 +268,7 @@ class Isilon_Tools(object):
         global IdleTimeout
         global ABSTimeout
         global TEMPLATES
+        global JSON_PATH
 
         self.isilon_Connect()
 

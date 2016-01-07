@@ -300,6 +300,13 @@ class Isilon_Tools(object):
             print("===Data===\n%s" % url_err.read())
 
     def get_quota_size(self, quota_id, svr_url=DEFAULT_SERVER, papi_cmd=QUOTA_QUERY, my_template=TEMPLATES):
+        '''
+        Connects to Isilon via REST - pulls updated quota info based on
+        quota_id that is sent...
+        The response is run through a query by project tools to pull the
+        threshold
+        '''
+
         global AppDirectory
         global SessionCookie
         global LastAuthTimestamp
@@ -324,6 +331,44 @@ class Isilon_Tools(object):
 
             current_thresh = pro_utils.get_new_threshold(response)
             return current_thresh
+
+        except urllib2.URLError as url_err:
+            print("Exception trying to delete session: %s" % url_err)
+            print("===Code===\n%s" % url_err.code)
+            print("===Headers===\n%s" % url_err.info())
+            print("===Data===\n%s" % url_err.read())
+
+    def get_quota_info(self, quota_id, svr_url=DEFAULT_SERVER, papi_cmd=QUOTA_QUERY, my_template=TEMPLATES):
+        '''
+        Copied from get_quota_size and modifed to include additional info
+        Should return a {}
+        {'threshold': 10000, 'path': '/ifs/home_dir'}
+        '''
+
+        global AppDirectory
+        global SessionCookie
+        global LastAuthTimestamp
+        global LastActionTimestamp
+        global IdleTimeout
+        global ABSTimeout
+        global TEMPLATES
+
+        self.isilon_Connect()
+
+        try:
+            request = urllib2.Request(svr_url + papi_cmd + quota_id)
+            request.add_header(HDR_COOKIE, SessionCookie)
+            response = urllib2.urlopen(request)
+
+            # Reset authentication values
+            LastAuthTimestamp = 0
+            LastActionTimestamp = 0
+            IdleTimeout = 0
+            ABSTimeout = 0
+            SessionCookie = ''
+
+            quota_info = pro_utils.get_quota_info(response)
+            return quota_info
 
         except urllib2.URLError as url_err:
             print("Exception trying to delete session: %s" % url_err)

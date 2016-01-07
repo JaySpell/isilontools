@@ -4,3 +4,6 @@ Customer First Name: {{ cust_fname }}
 Customer Last Name: {{ cust_lname }}
 Cost Center: {{ cost_cent }}
 Support Center: {{ sc_account }}
+Quota Path: {{ quota_path }}
+Threshold Before: {{ quota_before }}
+Threshold After: {{ quota_after }}

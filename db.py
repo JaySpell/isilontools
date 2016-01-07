@@ -11,7 +11,11 @@ class Quota_Update(Model):
     cust_lname = CharField(max_length=50)
     sc_account = CharField(max_length=100)
     cost_cent = CharField(max_length=12)
+    quota_path = TextField()
+    quota_id = TextField()
     date = DateTimeField(default=datetime.datetime.now)
+    quota_before = FloatField()
+    quota_after = FloatField()
 
     class Meta:
         database = database

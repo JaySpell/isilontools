@@ -208,6 +208,14 @@ def get_new_threshold(response):
         threshold = quota['thresholds']['hard']
     return int(threshold)
 
+def get_quota_info(response):
+    data = json.load(response)
+    quota_info = {}
+    for quota in data['quotas']:
+        quota_info['threshold'] = quota['thresholds']['hard']
+        quota_info['path'] = quota['path']
+    return quota_info
+
 def send_email(cost_dict):
     '''
     Will send an email to users specified in ADMINS
@@ -217,7 +225,7 @@ def send_email(cost_dict):
     param: cost_dict({cfname: 'firstname', clname: 'lastname',
         cost_center: 'number', sc_rep: 'userid'})
 
-    return:
+    return: email send status
     '''
     from flask.ext.mail import Message
     from app import mail
@@ -237,12 +245,18 @@ def send_email(cost_dict):
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
             sc_account=cost_dict['sc_account']
+            quota_before=cost_dict['quota_before']
+            quota_after=cost_dict['quota_after']
+            quota_path=cost_dict['quota_path']
         )
     msg.html = render_template('cost_center_email.html',
             cust_lname=cost_dict['cust_lname'],
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
             sc_account=cost_dict['sc_account']
+            quota_before=cost_dict['quota_before']
+            quota_after=cost_dict['quota_after']
+            quota_path=cost_dict['quota_path']
         )
 
     try:

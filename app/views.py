@@ -116,28 +116,36 @@ def cost():
         cost_cent = myform.cost_center.data
         sc_account = current_user
 
-        '''Add data to database'''
-        quota_add = Quota_Update.create(cust_fname=cust_fname,
-            cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent)
-
-        '''Send email'''
-        cost_dict = {
-                'cust_fname': cust_fname,
-                'cust_lname': cust_lname,
-                'cost_cent': cost_cent,
-                'sc_account': sc_account
-        }
-        email_status = pro_utils.send_email(cost_dict)
-
-
-        '''Set current quota == current_quota + 100GB'''
         try:
-            current_thresh = tool.get_quota_size(name)
+            '''Get quota info'''
+            quota_info = tool.get_quota_info(name)
+
+            '''Set current quota == current_quota + 100GB'''
+            current_thresh = int(quota_info['threshold'])
             tool.update_quota(name, current_thresh)
             new_thresh = tool.get_quota_size(name)
             new_thresh_GB = pro_utils.convert_to_GB(new_thresh)
         except:
             return render_template('404.html', error="Could not add space to quota....")
+
+        '''Add data to database'''
+        quota_add = Quota_Update.create(cust_fname=cust_fname,
+            cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent,
+            quota_id=name, quota_path=quota_info['path'],
+            quota_before=current_thresh, quota_after=new_thresh)
+
+        '''Send email'''
+        cost_dict = {
+            'cust_fname': cust_fname,
+            'cust_lname': cust_lname,
+            'cost_cent': cost_cent,
+            'quota_id': name,
+            'sc_account': sc_account,
+            'quota_before': current_thresh,
+            'quota_after': new_thresh,
+            'quota_path': quota_info['path']
+        }
+        email_status = pro_utils.send_email(cost_dict)
 
         return render_template('finish.html', name=name,
             new_limit=new_thresh_GB, email_status=email_status)

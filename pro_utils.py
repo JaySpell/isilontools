@@ -244,18 +244,18 @@ def send_email(cost_dict):
             cust_lname=cost_dict['cust_lname'],
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
-            sc_account=cost_dict['sc_account']
-            quota_before=cost_dict['quota_before']
-            quota_after=cost_dict['quota_after']
+            sc_account=cost_dict['sc_account'],
+            quota_before=cost_dict['quota_before'],
+            quota_after=cost_dict['quota_after'],
             quota_path=cost_dict['quota_path']
         )
     msg.html = render_template('cost_center_email.html',
             cust_lname=cost_dict['cust_lname'],
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
-            sc_account=cost_dict['sc_account']
-            quota_before=cost_dict['quota_before']
-            quota_after=cost_dict['quota_after']
+            sc_account=cost_dict['sc_account'],
+            quota_before=cost_dict['quota_before'],
+            quota_after=cost_dict['quota_after'],
             quota_path=cost_dict['quota_path']
         )
 

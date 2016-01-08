@@ -29,7 +29,7 @@ def load_user(username):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('test2.html')
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -1,4 +1,5 @@
-{% extends "panel.html" %} {% block panel %}
+{% extends "panel.html" %}
+{% block panel %}
 <span class="label label-danger" id="cust_fname">Customer First Name</span>
 <div class="form-group">
   <div class="input group">
@@ -19,5 +20,11 @@
 </div>
 <div class="form-group">
   <button type="submit" class="btn btn-danger">{{ btn_txt }}</button>
+</div>
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>IMPORTANT!!</strong> Caller should their directors approval for charges to cost centers!!
 </div>
 {% endblock %}

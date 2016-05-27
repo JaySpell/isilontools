@@ -114,6 +114,7 @@ def cost():
         cust_fname = myform.cust_fname.data
         cust_lname = myform.cust_lname.data
         cost_cent = myform.cost_center.data
+        work_order = myform.work_order.data
         sc_account = current_user
 
         try:
@@ -129,22 +130,31 @@ def cost():
             return render_template('404.html', error="Could not add space to quota....")
 
         '''Add data to database'''
-        quota_add = Quota_Update.create(cust_fname=cust_fname,
-            cust_lname=cust_lname, sc_account=sc_account, cost_cent=cost_cent,
-            quota_id=name, quota_path=quota_info['path'],
-            quota_before=current_thresh, quota_after=new_thresh)
+        quota_add = Quota_Update.create(
+                cust_fname=cust_fname,
+                cust_lname=cust_lname,
+                sc_account=sc_account,
+                cost_cent=cost_cent,
+                work_order=work_order,
+                quota_id=name,
+                quota_path=quota_info['path'],
+                quota_before=current_thresh,
+                quota_after=new_thresh
+            )
 
         '''Send email'''
         cost_dict = {
-            'cust_fname': cust_fname,
-            'cust_lname': cust_lname,
-            'cost_cent': cost_cent,
-            'quota_id': name,
-            'sc_account': sc_account,
-            'quota_before': current_thresh,
-            'quota_after': new_thresh,
-            'quota_path': quota_info['path']
-        }
+                'cust_fname': cust_fname,
+                'cust_lname': cust_lname,
+                'cost_cent': cost_cent,
+                'quota_id': name,
+                'work_order': work_order,
+                'sc_account': sc_account,
+                'quota_before': current_thresh,
+                'quota_after': new_thresh,
+                'quota_path': quota_info['path']
+            }
+
         email_status = pro_utils.send_email(cost_dict)
 
         return render_template('finish.html', name=name,

@@ -23,6 +23,14 @@ class MyForm(Form):
         validators=[DataRequired(message="Enter customer last name...")])
     cost_center = StringField('ccenter',
         validators=[DataRequired(message="Cost center required...")])
+    work_order = StringField('worder'
+        validators=[
+            DataRequired(message="Please enter a work order..."),
+            Regexp(
+                r'^[WOwo0-9]+$',
+                message=("Please enter valid work order.. WO0000111...")
+            )
+        ])
 
 class LoginForm(Form):
     username = StringField(

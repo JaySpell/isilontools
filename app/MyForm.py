@@ -27,9 +27,8 @@ class MyForm(Form):
         validators=[
             DataRequired(message="Please enter a work order..."),
             Regexp(
-                r'^[WOwo0-9]+$',
-                message=("Please enter valid work order.. WO0000111...")
-            )
+                r'^[Ww]{1}[Oo]{1}\d+',
+                message=("Please enter valid work order.. WO0000111..."))
         ])
 
 class LoginForm(Form):

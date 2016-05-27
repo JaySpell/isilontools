@@ -23,7 +23,7 @@ class MyForm(Form):
         validators=[DataRequired(message="Enter customer last name...")])
     cost_center = StringField('ccenter',
         validators=[DataRequired(message="Cost center required...")])
-    work_order = StringField('worder'
+    work_order = StringField('worder',
         validators=[
             DataRequired(message="Please enter a work order..."),
             Regexp(

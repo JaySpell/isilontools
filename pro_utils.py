@@ -245,6 +245,7 @@ def send_email(cost_dict):
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
             sc_account=cost_dict['sc_account'],
+            work_order=cost_dict['work_order'],
             quota_before=cost_dict['quota_before'],
             quota_after=cost_dict['quota_after'],
             quota_path=cost_dict['quota_path']
@@ -254,6 +255,7 @@ def send_email(cost_dict):
             cust_fname=cost_dict['cust_fname'],
             cost_cent=cost_dict['cost_cent'],
             sc_account=cost_dict['sc_account'],
+            work_order=cost_dict['work_order'],
             quota_before=cost_dict['quota_before'],
             quota_after=cost_dict['quota_after'],
             quota_path=cost_dict['quota_path']

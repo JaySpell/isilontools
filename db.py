@@ -11,6 +11,7 @@ class Quota_Update(Model):
     cust_lname = CharField(max_length=50)
     sc_account = CharField(max_length=100)
     cost_cent = CharField(max_length=12)
+    work_order = CharField(max_length=30)
     quota_path = TextField()
     quota_id = TextField()
     date = DateTimeField(default=datetime.datetime.now)

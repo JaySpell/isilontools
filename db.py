@@ -2,7 +2,7 @@ import datetime
 from peewee import *
 import secret
 
-db_name_path = secret.get_app_dir() + 'quota_add.db'
+db_name_path = secret.get_app_dir() + '/db/quota_add.db'
 
 database = SqliteDatabase(db_name_path)
 

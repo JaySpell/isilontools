@@ -1,4 +1,4 @@
-from .MyForm import MyForm, LoginForm, QuotaForm
+from .MyForm import MyForm, LoginForm, QuotaForm, RadioForm
 from app import app, login_manager
 from flask import (render_template, flash, redirect,
     request, url_for, session, escape, g)
@@ -112,7 +112,7 @@ def cost():
     myform.size_in_gb = 0
 
     if myform.validate_on_submit():
-        
+
         '''Set variables from form data for the database'''
         cust_fname = myform.cust_fname.data
         cust_lname = myform.cust_lname.data

@@ -162,7 +162,7 @@ def cost():
         return render_template('finish.html', name=name,
             new_limit=new_thresh_GB, email_status=email_status)
 
-    flash(myform.cost_cen)
+    flash()
 
     return render_template('cost.html', form=myform,
         btn_txt="Add Space", title="Enter Customer Name & Cost Center")

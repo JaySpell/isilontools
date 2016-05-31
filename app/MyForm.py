@@ -11,7 +11,6 @@ class MyForm(Form):
             Length(min=4),
         ])
     size_in_gb = StringField('size', validators=[DataRequired()])
-    itemid = RadioField(validators=[DataRequired()])
     cust_fname = StringField('cfname',
         validators=[
             DataRequired(message="Enter customer first name..",),
@@ -55,3 +54,6 @@ class QuotaForm(Form):
             DataRequired(message='Must enter at least 4 characters...'),
             Length(min=4),
         ])
+
+class RadioForm(Form):
+    itemid = RadioField(validators=[DataRequired()])

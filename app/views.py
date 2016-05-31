@@ -108,9 +108,10 @@ def cost():
     tool = Isilon_Tools()
     name = session['selected']
     myform = MyForm()
+    myform.name = name
+    myform.size_in_gb = 0
 
     if myform.validate_on_submit():
-        flash('Please correct the form and resubmit')
         
         '''Set variables from form data for the database'''
         cust_fname = myform.cust_fname.data
@@ -175,7 +176,7 @@ def quotas_radio_return(quotas):
     '''
     tuple_data = pro_utils.dict_to_tuple(quotas)
 
-    form = MyForm()
+    form = RadioForm()
     form.itemid.choices = tuple_data
 
     return form

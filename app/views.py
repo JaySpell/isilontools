@@ -109,7 +109,9 @@ def cost():
     name = session['selected']
     myform = MyForm()
 
-    if request.method == 'POST':
+    if myform.validate_on_submit():
+        flash('Please correct the form and resubmit')
+        
         '''Set variables from form data for the database'''
         cust_fname = myform.cust_fname.data
         cust_lname = myform.cust_lname.data
@@ -136,8 +138,8 @@ def cost():
                 sc_account=sc_account,
                 cost_cent=cost_cent,
                 work_order=work_order,
-                quota_id=name,
                 quota_path=quota_info['path'],
+                quota_id=name,
                 quota_before=current_thresh,
                 quota_after=new_thresh
             )

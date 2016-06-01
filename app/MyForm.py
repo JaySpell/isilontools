@@ -9,7 +9,7 @@ class MyForm(Form):
     name = StringField('name'),
     cust_fname = StringField('cfname',
         validators=[
-            DataRequired(message="Enter customer first name..",),
+            InputRequired(message="Enter customer first name..",),
             Regexp(
                 r'^[a-zA-Z]+$',
                 message=("Customer name should contain only letters..."))
@@ -23,11 +23,14 @@ class MyForm(Form):
         ])
     cost_center = StringField('ccenter',
         validators=[
-            InputRequired(message="Cost center required...")
+            InputRequired(message="Cost center required..."),
+            Regexp(
+                r'^[0-9]+$',
+                message=("Cost center should be numbers only..."))
         ])
     work_order = StringField('worder',
         validators=[
-            DataRequired(message="Please enter a work order..."),
+            InputRequired(message="Please enter a work order..."),
             Regexp(
                 r'^[Ww]{1}[Oo]{1}\d+',
                 message=("Please enter valid work order.. WO0000111..."))

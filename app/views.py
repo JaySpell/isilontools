@@ -110,6 +110,10 @@ def cost():
     myform = MyForm()
     myform.name = name
     myform.size_in_gb = 0
+    count = 0
+
+    if count = 1:
+        1/0
 
     if myform.validate_on_submit():
         '''Set variables from form data for the database'''
@@ -162,6 +166,8 @@ def cost():
         return render_template('finish.html', name=name,
             new_limit=new_thresh_GB, email_status=email_status)
 
+    print form.errors
+    count += 1
     return render_template('cost.html', form=myform,
         btn_txt="Add Space", title="Enter Customer Name & Cost Center")
 

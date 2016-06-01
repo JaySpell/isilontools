@@ -3,8 +3,8 @@
 {% block content %}
 <h3>Quota ID: <small>{{ name }}</small></h3>
 <h3> New size in GB: <small>{{ new_limit }}</small> </h3>
-<h3>Email status: {{ email_status }}
-<a href="/quota">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-</a>
+<h3>Email status: {{ email_status }}</h3>
+
+<a href="/quota"><button type="button" class="btn btn-info">Back to Search</button></a>
+
 {% endblock %}

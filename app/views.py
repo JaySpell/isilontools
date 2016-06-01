@@ -108,8 +108,8 @@ def cost():
     tool = Isilon_Tools()
     name = session['selected']
     myform = MyForm()
-    myform.name = name
-    
+    myform.name = name[1]
+
     if myform.validate_on_submit():
         '''Set variables from form data for the database'''
         cust_fname = myform.cust_fname.data

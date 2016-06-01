@@ -2,14 +2,11 @@ __author__ = 'jspell'
 from flask_wtf import Form
 from wtforms import (StringField, SelectField,
     validators, BooleanField, RadioField, PasswordField)
-from wtforms.validators import DataRequired, Required, Regexp, Length
+from wtforms.validators import (DataRequired, Required,
+    Regexp, Length, InputRequired)
 
 class MyForm(Form):
-    name = StringField('name',
-        validators=[
-            DataRequired(message='Must enter at least 4 characters...'),
-            Length(min=4),
-        ])
+    name = StringField('name'),
     cust_fname = StringField('cfname',
         validators=[
             DataRequired(message="Enter customer first name..",),
@@ -19,11 +16,14 @@ class MyForm(Form):
         ])
     cust_lname = StringField('lname',
         validators=[
-            DataRequired(message="Enter customer last name...")
+            InputRequired(message="Enter customer last name..."),
+            Regexp(
+                r'^[a-zA-Z]+$',
+                message=("Customer name should contain only letters..."))
         ])
     cost_center = StringField('ccenter',
         validators=[
-            DataRequired(message="Cost center required...")
+            InputRequired(message="Cost center required...")
         ])
     work_order = StringField('worder',
         validators=[

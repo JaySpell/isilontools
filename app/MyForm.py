@@ -10,10 +10,6 @@ class MyForm(Form):
             DataRequired(message='Must enter at least 4 characters...'),
             Length(min=4),
         ])
-    size_in_gb = StringField('size',
-        validators=[
-            DataRequired()
-        ])
     cust_fname = StringField('cfname',
         validators=[
             DataRequired(message="Enter customer first name..",),

@@ -98,10 +98,6 @@ def quotas():
     else:
         return render_template('quotas.html',form=myform, itemid=itemid)
 
-@app.route('/quotas_return', methods=['GET', 'POST'])
-def quotas_return():
-    pass
-
 @app.route('/cost', methods=['GET', 'POST'])
 @login_required
 def cost():

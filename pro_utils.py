@@ -7,8 +7,8 @@ from os.path import isfile, join
 
 
 '''
-This will parse a directory of files that contain json files and return the one with
-the matching string
+This will parse a directory of files that contain json files and return
+the one with the matching string
 '''
 def find_file(dir_path, search_string):
     '''
@@ -28,23 +28,18 @@ def find_file(dir_path, search_string):
             continue
     return none_found
 
-
 def load_json(file_path):
     with open(file_path) as j:
         d = json.load(j)
         j.close()
         return d
 
-
-'''
-Load the json data - search for quota ID
-'''
+#Load the json data - search for quota ID
 def find_data(search_string, file_to_open):
     all_data = load_json(file_to_open)
     for quota in all_data['quotas']:
         if search_string.lower() in quota['path'].lower():
             return True
-
 
 def resume_str(filename):
     resume = "NA"
@@ -57,7 +52,6 @@ def resume_str(filename):
         return resume
     else:
         return resume
-
 
 def str_present_json(filename, search_string):
     '''
@@ -151,7 +145,6 @@ def get_all_quota_files(dir_path, search_string):
     else:
         return "NA"
 
-
 # Load the json data - search for specific string ID
 def find_quota(user_name, filename):
     allfiles = [f for f in listdir(dir_path) if isfile(join(dir_path, f))]
@@ -184,7 +177,6 @@ def get_quota_info(filename, search_string):
             return return_quota
         else:
             return "NA"
-
 
 def convert_to_bytes(my_int):
     new_num = my_int * 1024 * 1024 * 1024

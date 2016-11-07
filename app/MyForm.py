@@ -18,7 +18,7 @@ class MyForm(Form):
         validators=[
             InputRequired(message="Enter customer last name..."),
             Regexp(
-                r'^[a-zA-Z]+$',
+                r'^[a-zA-Z\s\-]+$',
                 message=("Customer name should contain only letters..."))
         ])
     cost_center = StringField('ccenter',

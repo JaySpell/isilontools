@@ -23,7 +23,7 @@ class ADAuth(object):
             error_return = "Username / Password incorrect..."
         except ldap.SERVER_DOWN:
             error_return = "Server unavailable..."
-        except ldap.LDAPError, e:
+        except ldap.LDAPError as e:
             if type(e.message) == dict and e.message.has_key('desc'):
                 return "Other LDAP error: " + e.message['desc']
             else:
@@ -34,21 +34,16 @@ class ADAuth(object):
     def check_group_for_account(self, basedn=BASE_DN,
                                 auth_group=AUTH_GROUP):
         is_member = False
-        try:
-            conn = self.authenticate()
-            s_user = "CN=" + self.upn_id.split('@')[0]
 
-            results = conn.search_s(basedn, ldap.SCOPE_SUBTREE,"(cn=%s)" % auth_group)
+        conn = self.authenticate()
+        s_user = "CN=" + self.upn_id.split('@')[0]
 
-            for result in results:
-              result_dn = result[0]
-              result_attrs = result[1]
+        results = conn.search_s(basedn,
+                        ldap.SCOPE_SUBTREE,"(cn=%s)" % auth_group)
 
-              if "member" in result_attrs:
-                for member in result_attrs["member"]:
-                    member_cn = member.split(',')[0]
-                    if member_cn.lower() == s_user.lower():
-                        is_member = True
-            return is_member
-        except:
-            return is_member
+        for result in results[0][1]['member']:
+            member_cn = result.decode("utf-8").split(',')[0]
+            if member_cn.lower() == s_user.lower():
+                is_member = True
+    
+        return is_member

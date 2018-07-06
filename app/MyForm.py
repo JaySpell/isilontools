@@ -1,11 +1,11 @@
 __author__ = 'jspell'
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import (StringField, SelectField,
     validators, BooleanField, RadioField, PasswordField)
 from wtforms.validators import (DataRequired, Required,
     Regexp, Length, InputRequired)
 
-class MyForm(Form):
+class MyForm(FlaskForm):
     name = StringField('name'),
     cust_fname = StringField('cfname',
         validators=[
@@ -36,7 +36,7 @@ class MyForm(Form):
                 message=("Please enter valid work order.. WO0000111..."))
         ])
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     username = StringField(
         'Username',
         validators=[
@@ -54,12 +54,12 @@ class LoginForm(Form):
             Length(min=6),
         ])
 
-class QuotaForm(Form):
+class QuotaForm(FlaskForm):
     name = StringField('name',
         validators=[
             DataRequired(message='Must enter at least 4 characters...'),
             Length(min=4),
         ])
 
-class RadioForm(Form):
+class RadioForm(FlaskForm):
     itemid = RadioField(validators=[DataRequired()])

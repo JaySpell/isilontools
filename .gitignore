@@ -12,3 +12,6 @@ app/secret.py
 run_tools.py
 testing_login.py
 app/templates/test2.html
+test_it.py
+test_it_ldap.py
+**files/

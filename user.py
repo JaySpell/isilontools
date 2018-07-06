@@ -1,4 +1,4 @@
-from flask.ext.login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin
 
 class User(UserMixin):
 

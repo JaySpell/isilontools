@@ -26,14 +26,14 @@ class isitool:
         self.configuration.host = self.default_server
 
     def get_quota_size(self, quota_id):
-        """
+        '''
         :param quota_id: Quota ID - to retrieve size
         :return: quota_info
 
         Function will get info on current quota
         - utilize get_quota_summary() to get info
         - return quota hard threshold size
-        """
+        '''
 
         quota_info = get_quota_summary(quota_id)
         r_data = quota_info.to_dict()
@@ -60,36 +60,6 @@ class isitool:
 
         return api_response
 
-    def find_quotas(self, search_string):
-        """
-        :param search_string: str will be used in search
-
-        Function will search all JSON files for quotas with search_string
-        - Get list of all files in the specified directory
-        - Search each one for the string
-        - return quotas
-        """
-
-        def get_all_quotas(dir_path, search_string):
-            allfiles = [f for f in os.listdir(dir_path) if os.isfile(join(dir_path, f))]
-            none_found = "No match"
-            all_quotas = []
-
-            for file in allfiles:
-                file_return = self._str_present_json(dir_path + file,
-                                                    search_string)
-                if file_return != "NA":
-                    all_quotas.append(file_return)
-
-            if len(all_quotas) = 0:
-                all_quotas = "NA"
-
-            return all_quotas
-
-        quotas = get_all_quotas(self.json_path, search_string)
-
-        return quotas
-
 
     def update_quota(self, quota_id, current_quota, plus_gb=100):
         """
@@ -101,7 +71,8 @@ class isitool:
         Function will take the current quota (current_quota) and add space
         - send to Isilon
         """
-        # Determine size to add to quota
+
+        '''Determine size to add to quota'''
         if plus_gb != 100:
             add_space = 1073741824 * int(plus_gb)
         else:
@@ -111,8 +82,8 @@ class isitool:
         h_limit = int(quota + add_space)
         a_limit = int((quota + add_space) * .95)
 
-        # Add space using api calls
-        api_client = i_tools.ApiClient(configuration)
+        '''Add space using api calls'''
+        api_client = i_tools.ApiClient(self.configuration)
         api_instance = i_tools.QuotaApi(api_client)
         q_quota = i_tools.QuotaQuota(
                 thresholds={'advisory': a_limit, 'hard': h_limit}
@@ -124,7 +95,7 @@ class isitool:
             print("Exception when calling QuotaApi -> update_quota: %s\n" %e)
 
 
-    def isilon_find_quotas(self, search_string):
+    def find_quotas(self, search_string):
         '''
         Open directory - search through all files for search_string
         return list of dictionaries with path:quota_id
@@ -148,24 +119,42 @@ class isitool:
                     if search_string.lower() in quota['path'].lower():
                         return_quota = {quota['path']: quota['id']}
 
-                if len(return_quota.viewkeys()) = 0:
+                if len(return_quota.keys()) == 0:
                     return_quota = "NA"
 
                 return return_quota
 
         # Get all files in directory and put them in list
-        allfiles = [f for f os.listdir(self.json_path) if os.isfile(
-                        join(self.json_path, f))]
+        allfiles = [f for f in os.listdir(self.json_path) if os.path.isfile(
+                    os.path.join(self.json_path, f))]
 
         all_quotas = []
 
         # Loop files use _str_present_json to find search str
         for file in allfiles:
-            file_return = self._str_present_json(dir_path + file, search_string)
+            file_return = _str_present_json(self.json_path + file, search_string)
             if file_return != "NA":
                 all_quotas.append(file_return)
 
-        if len(all_quotas) = 0:
+        if len(all_quotas) == 0:
             all_quotas = "NA"
 
         return all_quotas
+
+    def get_quota_info(self, quota_id):
+        '''
+        Get the quota based on the quota_id passed
+        :param quota_id: Quota ID - to update
+        :return: quota_info
+        '''
+        api_client = i_tools.ApiClient(self.configuration)
+        api_instance = i_tools.QuotaApi(api_client)
+
+        try:
+            api_response = api_instance.get_quota_quota(quota_id)
+        except ApiException as e:
+            print("Exception when calling QuotaApi --> get_quota_info: %s\n" %e)
+
+        quota_info = api_response.to_dict()
+
+        return quota_info

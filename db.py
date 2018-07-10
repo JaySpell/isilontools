@@ -17,6 +17,7 @@ class Quota_Update(Model):
     date = DateTimeField(default=datetime.datetime.now)
     quota_before = FloatField()
     quota_after = FloatField()
+    space_add = IntegerField()
 
     class Meta:
         database = database

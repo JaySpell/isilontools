@@ -3,6 +3,7 @@ Following customer has requested an increase in quota space.
 Customer First Name: {{ cust_fname }}
 Customer Last Name: {{ cust_lname }}
 Cost Center: {{ cost_cent }}
+Space Added: {{ space_add }}
 Support Center: {{ sc_account }}
 Quota Path: {{ quota_path }}
 Threshold Before: {{ quota_before }}

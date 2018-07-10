@@ -35,15 +35,18 @@ class ADAuth(object):
                                 auth_group=AUTH_GROUP):
         is_member = False
 
-        conn = self.authenticate()
-        s_user = "CN=" + self.upn_id.split('@')[0]
+        try:
+            conn = self.authenticate()
+            s_user = "CN=" + self.upn_id.split('@')[0]
 
-        results = conn.search_s(basedn,
-                        ldap.SCOPE_SUBTREE,"(cn=%s)" % auth_group)
+            results = conn.search_s(basedn,
+                            ldap.SCOPE_SUBTREE,"(cn=%s)" % auth_group)
 
-        for result in results[0][1]['member']:
-            member_cn = result.decode("utf-8").split(',')[0]
-            if member_cn.lower() == s_user.lower():
-                is_member = True
-    
+            for result in results[0][1]['member']:
+                member_cn = result.decode("utf-8").split(',')[0]
+                if member_cn.lower() == s_user.lower():
+                    is_member = True
+        except:
+            pass
+            
         return is_member

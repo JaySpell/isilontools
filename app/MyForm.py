@@ -1,12 +1,12 @@
 __author__ = 'jspell'
 from flask_wtf import FlaskForm
 from wtforms import (StringField, SelectField,
-    validators, BooleanField, RadioField, PasswordField)
+    validators, BooleanField, RadioField, PasswordField, IntegerField)
 from wtforms.validators import (DataRequired, Required,
-    Regexp, Length, InputRequired)
+    Regexp, Length, NumberRange, InputRequired, Optional)
 
 class MyForm(FlaskForm):
-    name = StringField('name'),
+    #name = StringField('name'),
     cust_fname = StringField('cfname',
         validators=[
             InputRequired(message="Enter customer first name..",),
@@ -20,6 +20,13 @@ class MyForm(FlaskForm):
             Regexp(
                 r'^[a-zA-Z\s\-]+$',
                 message=("Customer name should contain only letters..."))
+        ])
+    space_add = IntegerField('aspace',
+        validators=[
+            NumberRange(min=0, max=500,
+                message=("Can add space up to 500GB...")
+            ),
+            Optional()
         ])
     cost_center = StringField('ccenter',
         validators=[

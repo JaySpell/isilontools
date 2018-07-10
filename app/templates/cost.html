@@ -30,6 +30,21 @@
     {% endif %}
   </div>
 </div>
+<span class="label label-danger" id="basic-addon2">Space Increase (in GB)</span>
+<div class="form-group">
+  <div class="input group">
+    {{ form.space_add(class_="form-control") }}
+    {% if form.space_add.errors %}
+    <ul class=errors>
+      {% for error in form.space_add.errors %}
+        <li>
+          {{ error }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
 <span class="label label-danger" id="basic-addon3">Cost Center</span>
 <div class="form-group">
   <div class="input group">

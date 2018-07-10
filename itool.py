@@ -1,5 +1,6 @@
 from pprint import pprint
 import os
+import json
 import urllib3
 import secret
 import utils
@@ -13,7 +14,7 @@ class isitool:
 
     def __init__(self, **kwargs):
         self.name = self
-        self.default_server = secret.get_server()
+        self.default_server = kwargs.get('server', secret.get_server())
         self.default_user = secret.get_username()
         self.default_password = secret.get_password()
         self.json_path = secret.get_json_path()
@@ -41,14 +42,16 @@ class isitool:
         return r_data['quotas'][0]['thresholds']['hard']
 
     def get_quota_summary(self, quota_id):
-        """
+        '''
+        Get a quota summary from Isilon through REST call
+
         :param quota_id: Quota ID - to retrieve size
         :return: quota_info
 
         Function will get info on current quota
         - request from Isilon
         - return new quota (query_quota)
-        """
+        '''
 
         api_client = i_tools.ApiClient(self.configuration)
         api_instance = i_tools.QuotaApi(api_client)
@@ -59,7 +62,6 @@ class isitool:
             print("Exception when calling QuotaApi -> get_quota_size: %s\n" % e)
 
         return api_response
-
 
     def update_quota(self, quota_id, current_quota, plus_gb=100):
         """
@@ -93,7 +95,6 @@ class isitool:
             api_instance.update_quota_quota(q_quota, quota_id)
         except ApiException as e:
             print("Exception when calling QuotaApi -> update_quota: %s\n" %e)
-
 
     def find_quotas(self, search_string):
         '''
@@ -158,3 +159,40 @@ class isitool:
         quota_info = api_response.to_dict()
 
         return quota_info
+
+    def get_all_quota(self, **kwargs):
+        '''
+        Function loops through the query and dumps all
+        quotas to a series of files
+        - opens new file for each query
+        - save out the file
+         Query should run till output of resume == None
+         :return:
+        '''
+        count = kwargs.get('count', 1)
+        name_prefix = kwargs.get('filename', 'json_out')
+        limit = kwargs.get('limit', 1000)
+
+        api_client = i_tools.ApiClient(self.configuration)
+        api_instance = i_tools.QuotaApi(api_client)
+
+        '''Dump the output of the query to a file'''
+        def dump_to_file(api_response, count):
+            filename = self.json_path + name_prefix + str(count)
+            data = api_response.to_dict()
+            with open(filename, 'w') as outfile:
+                outfile.truncate()
+                json.dump(data, outfile)
+
+
+        '''Get first set of quotas'''
+        api_response = api_instance.list_quota_quotas(limit=limit)
+        dump_to_file(api_response, count)
+
+        '''Loop until there are no quota'''
+        while api_response.to_dict()['resume'] is not None:
+            api_response = api_instance.list_quota_quotas(
+                    resume=api_response.resume.encode("utf-8"))
+            dump_to_file(api_response, count)
+            print(api_response.resume)
+            count += 1

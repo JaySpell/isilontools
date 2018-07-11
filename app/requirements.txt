@@ -8,3 +8,5 @@ flipflop
 flask-babel
 guess_language
 python-ldap
+urllib3
+isi_sdk_8_1_0

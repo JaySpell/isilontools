@@ -1,5 +1,5 @@
 import ldap
-import secret
+from external import secret
 
 SERVER_LDAP = secret.get_ldap_srv()
 BASE_DN = secret.get_base_dn()
@@ -48,5 +48,5 @@ class ADAuth(object):
                     is_member = True
         except:
             pass
-            
+
         return is_member

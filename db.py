@@ -1,6 +1,6 @@
 import datetime
 from peewee import *
-import secret
+from external import secret
 
 db_name_path = secret.get_app_dir() + '/db/quota_add.db'
 

@@ -2,7 +2,7 @@ from pprint import pprint
 import os
 import json
 import urllib3
-import secret
+from external import secret
 import utils
 import isi_sdk_8_1_0 as i_tools
 from isi_sdk_8_1_0.rest import ApiException

@@ -1,9 +1,11 @@
 from flask import Flask, g
 from flask_login import LoginManager
 from flask_mail import Mail
+from external import secret
+from external import config
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object(config)
 # from user import User
 
 mail = Mail(app)

@@ -21,7 +21,7 @@ def send_email(cost_dict):
     from flask_mail import Message
     from app import mail
     from flask import render_template
-    import config
+    from external import config
 
     MAIL_SERVER = config.MAIL_SERVER
     MAIL_PORT = config.MAIL_PORT

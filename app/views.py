@@ -11,8 +11,13 @@ from ad_auth import ADAuth
 from user import User
 import ldap
 import urllib3
+from external import config
 
 all_users = {}
+
+'''Config should point to json file'''
+global config
+config = utils.load_json('/home/jspell/Documents/dev/quotamod/isilontools/external/config.json')
 
 @login_manager.user_loader
 def load_user(username):
@@ -112,13 +117,14 @@ def quotas():
 @app.route('/cost', methods=['GET', 'POST'])
 @login_required
 def cost():
+    global config
+
     name = session['selected']
     path = session['select-path']
 
     '''Checks whether P drive or not'''
     if 'phi_access' in path.lower():
-        from external import secret
-        overload_server = {'server': secret.get_phi_server()}
+        overload_server = {'server': config['phi_server']}
         tool = isitool(**overload_server)
     else:
         tool = isitool()
@@ -185,7 +191,7 @@ def cost():
             'quota_path': quota_info['quotas'][0]['path']
         }
 
-        email_status = utils.send_email(cost_dict)
+        email_status = utils.send_email(cost_dict, config['mail_server'])
 
         return render_template('finish.html', name=name,
                                new_limit=new_thresh_GB, email_status=email_status)

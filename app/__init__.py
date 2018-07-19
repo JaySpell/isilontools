@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask_login import LoginManager
 from flask_mail import Mail
-from external import secret
+#from external import secret
 from external import config
 
 app = Flask(__name__)

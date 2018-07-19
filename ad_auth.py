@@ -1,10 +1,14 @@
 import ldap
-from external import secret
+from external import config
 
-SERVER_LDAP = secret.get_ldap_srv()
-BASE_DN = secret.get_base_dn()
-AUTH_GROUP = secret.get_auth_grp()
-UPN_SUFFIX = secret.get_upn()
+'''Get config'''
+config = config.get_config()
+
+'''Set the global variables'''
+SERVER_LDAP = config['ldap_srv']
+BASE_DN = config['base_dn']
+AUTH_GROUP = config['ldap_grp']
+UPN_SUFFIX = config['upn']
 
 class ADAuth(object):
 

@@ -15,3 +15,4 @@ app/templates/test2.html
 test_it.py
 test_it_ldap.py
 **files/
+config.json

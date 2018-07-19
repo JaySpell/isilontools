@@ -2,7 +2,7 @@ from pprint import pprint
 import os
 import json
 import urllib3
-from external import secret
+from external import config
 import utils
 import isi_sdk_8_1_0 as i_tools
 from isi_sdk_8_1_0.rest import ApiException
@@ -14,15 +14,18 @@ class isitool:
 
     def __init__(self, **kwargs):
         self.name = self
-        self.default_server = kwargs.get('server', secret.get_server())
-        self.default_user = secret.get_username()
-        self.default_password = secret.get_password()
-        self.json_path = secret.get_json_path()
+        self.config = config.get_config()
+        self.default_server = kwargs.get('server', self.config['isl_server'])
+        self.default_user = self.config['isl_user']
+        self.default_password = self.config['isl_pass']
+        self.json_path = self.config['pro_dir'] +\
+                         self.config['config_dir'] +\
+                         self.config['quota_dir']
 
         # Connect Isilon
         self.configuration = i_tools.Configuration()
-        self.configuration.username = self.default_user
-        self.configuration.password = self.default_password
+        self.configuration.username = self.default_user.encode("utf-8")
+        self.configuration.password = self.default_password.encode("utf-8")
         self.configuration.verify_ssl = False
         self.configuration.host = self.default_server
 

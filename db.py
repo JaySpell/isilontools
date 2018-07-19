@@ -1,10 +1,11 @@
 import datetime
 from peewee import *
-from external import secret
+import utils
+from external import config
 
-db_name_path = secret.get_config() + '/db/quota_add.db'
-
-database = SqliteDatabase(db_name_path)
+'''DB Path'''
+config = config.get_config()
+database = SqliteDatabase(config['db_file'])
 
 class Quota_Update(Model):
     cust_fname = CharField(max_length=50)

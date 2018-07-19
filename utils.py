@@ -7,7 +7,7 @@ def load_json(file_path):
         j.close()
         return d
 
-def send_email(cost_dict):
+def send_email(cost_dict, mail_server):
     '''
     Will send an email to users specified in ADMINS
     with information for customer name, cost center &
@@ -15,6 +15,7 @@ def send_email(cost_dict):
 
     param: cost_dict({cfname: 'firstname', clname: 'lastname',
         cost_center: 'number', sc_rep: 'userid'})
+    param: mail_server - should be string of the mail server
 
     return: email send status
     '''
@@ -23,11 +24,14 @@ def send_email(cost_dict):
     from flask import render_template
     from external import config
 
-    MAIL_SERVER = config.MAIL_SERVER
-    MAIL_PORT = config.MAIL_PORT
-    MAIL_USE_TLS = config.MAIL_USE_TLS
-    MAIL_USE_SSL = config.MAIL_USE_SSL
-    ADMINS = config.ADMINS
+    config = config.get_config()
+    MAIL_SERVER = mail_server
+    MAIL_PORT = 25
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    ADMINS = config['admins']
 
     msg = Message('Quota Space Addition', sender='QuotaMod@mhhs.org',
         recipients=ADMINS)

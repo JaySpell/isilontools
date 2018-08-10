@@ -18,7 +18,7 @@ all_users = {}
 '''Config should point to json file'''
 global config
 config = utils.load_json(
-        '/home/jspell/Documents/dev/quotamod/isilontools/external/config.json'
+        '/var/www/isilontools/external/config.json'
         )
 
 @login_manager.user_loader

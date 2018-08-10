@@ -3,6 +3,9 @@ import os
 import json
 import urllib3
 from external import config
+#import sys
+#sys.path.append('/home/jspell/Documents/dev/quotamod/isilontools/external')
+#import config
 import utils
 import isi_sdk_8_1_0 as i_tools
 from isi_sdk_8_1_0.rest import ApiException
@@ -24,8 +27,8 @@ class isitool:
 
         # Connect Isilon
         self.configuration = i_tools.Configuration()
-        self.configuration.username = self.default_user.encode("utf-8")
-        self.configuration.password = self.default_password.encode("utf-8")
+        self.configuration.username = str(self.default_user)
+        self.configuration.password = str(self.default_password)
         self.configuration.verify_ssl = False
         self.configuration.host = self.default_server
 
@@ -39,7 +42,7 @@ class isitool:
         - return quota hard threshold size
         '''
 
-        quota_info = get_quota_summary(quota_id)
+        quota_info = self.get_quota_summary(quota_id)
         r_data = quota_info.to_dict()
 
         return r_data['quotas'][0]['thresholds']['hard']
@@ -66,11 +69,11 @@ class isitool:
 
         return api_response
 
-    def update_quota(self, quota_id, current_quota, plus_gb=100):
+    def update_quota(self, quota_id, current_quota, plus_gb=50):
         """
         :param quota_id: Quota ID - to update
         :param current_quota: Size of current hard threshold
-        :param plus_gb: default 100GB - can be overloaded for custom size
+        :param plus_gb: default 50GB - can be overloaded for custom size
         :return: new_quota_info
 
         Function will take the current quota (current_quota) and add space
@@ -78,10 +81,10 @@ class isitool:
         """
 
         '''Determine size to add to quota'''
-        if plus_gb != 100:
+        if plus_gb != 50:
             add_space = 1073741824 * int(plus_gb)
         else:
-            add_space = 107374182400
+            add_space = int(53687091200)
 
         quota = int(current_quota)
         h_limit = int(quota + add_space)

@@ -17,7 +17,9 @@ all_users = {}
 
 '''Config should point to json file'''
 global config
-config = utils.load_json('/home/jspell/Documents/dev/quotamod/isilontools/external/config.json')
+config = utils.load_json(
+        '/home/jspell/Documents/dev/quotamod/isilontools/external/config.json'
+        )
 
 @login_manager.user_loader
 def load_user(username):
@@ -69,7 +71,7 @@ def login():
 
 
 @app.route('/quota', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def quota():
     myform = QuotaForm()
     if myform.validate_on_submit():
@@ -81,7 +83,7 @@ def quota():
 
 
 @app.route('/quotas', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def quotas():
     '''
     This gets returned after a query is entered - it should do the following...
@@ -115,7 +117,7 @@ def quotas():
 
 
 @app.route('/cost', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def cost():
     global config
 
@@ -141,27 +143,31 @@ def cost():
         work_order = myform.work_order.data
         sc_account = current_user
 
-        try:
-            '''Get quota info'''
-            quota_info = tool.get_quota_info(name)
+        #try:
+        '''Get quota info'''
+        quota_info = tool.get_quota_info(name)
 
-            '''Set current quota == current_quota + 100GB'''
-            current_thresh = int(quota_info['quotas'][0]['thresholds']['hard'])
-            if space_add is not None:
-                if space_add < 100:
-                    space_add = 100
-                tool.update_quota(name, current_thresh, plus_gb=int(space_add))
-            else:
-                tool.update_quota(name, current_thresh)
-                space_add = 100
+        '''Set current quota == current_quota + 50GB'''
+        current_thresh = int(quota_info['quotas'][0]['thresholds']['hard'])
+        print(current_thresh)
+        if space_add is not None:
+            print("Inside add")
+            if space_add < 50:
+                print("Inside 50 add")
+                space_add = 50
+            tool.update_quota(name, current_thresh, plus_gb=int(space_add))
+        else:
+            print("Inside else")
+            tool.update_quota(name, current_thresh)
+            space_add = 50
 
-            '''Query for new quota size / convert to GB'''
-            new_quota_info = tool.get_quota_info(name)
-            new_quota_thresh = int(new_quota_info['quotas'][0]['thresholds']['hard'])
-            new_thresh_GB = utils.convert_to_GB(new_quota_thresh)
+        '''Query for new quota size / convert to GB'''
+        new_quota_info = tool.get_quota_info(name)
+        new_quota_thresh = int(new_quota_info['quotas'][0]['thresholds']['hard'])
+        new_thresh_GB = utils.convert_to_GB(new_quota_thresh)
 
-        except:
-            return render_template('404.html', error="Could not add space to quota....")
+        #except:
+        #    return render_template('404.html', error="Could not add space to quota....")
 
         '''Add data to database'''
         quota_add = Quota_Update.create(

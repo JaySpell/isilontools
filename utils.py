@@ -7,7 +7,7 @@ def load_json(file_path):
         j.close()
         return d
 
-def send_email(cost_dict, mail_server):
+def send_email(cost_dict):
     '''
     Will send an email to users specified in ADMINS
     with information for customer name, cost center &
@@ -24,17 +24,8 @@ def send_email(cost_dict, mail_server):
     from flask import render_template
     from external import config
 
-    config = config.get_config()
-    MAIL_SERVER = mail_server
-    MAIL_PORT = 25
-    MAIL_USERNAME = None
-    MAIL_PASSWORD = None
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    ADMINS = config['admins']
-
     msg = Message('Quota Space Addition', sender='QuotaMod@mhhs.org',
-        recipients=ADMINS)
+        recipients=config.ADMINS)
 
     msg.body = render_template('cost_center.txt',
             cust_lname=cost_dict['cust_lname'],
@@ -59,11 +50,11 @@ def send_email(cost_dict, mail_server):
             quota_path=cost_dict['quota_path']
         )
 
-    try:
-        mail.send(msg)
-        return "Email sent..."
-    except:
-        return "No email sent..."
+    #try:
+    mail.send(msg)
+    return "Email sent..."
+    #except:
+    #    return "No email sent..."
 
 def convert_to_bytes(my_int):
     new_num = my_int * 1024 * 1024 * 1024

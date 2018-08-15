@@ -81,7 +81,7 @@ class isitool:
         """
 
         '''Determine size to add to quota'''
-        if plus_gb != 50:
+        if plus_gb >= 50:
             add_space = 1073741824 * int(plus_gb)
         else:
             add_space = int(53687091200)

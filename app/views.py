@@ -143,31 +143,28 @@ def cost():
         work_order = myform.work_order.data
         sc_account = current_user
 
-        #try:
-        '''Get quota info'''
-        quota_info = tool.get_quota_info(name)
+        try:
+            '''Get quota info'''
+            quota_info = tool.get_quota_info(name)
 
-        '''Set current quota == current_quota + 50GB'''
-        current_thresh = int(quota_info['quotas'][0]['thresholds']['hard'])
-        print(current_thresh)
-        if space_add is not None:
-            print("Inside add")
-            if space_add < 50:
-                print("Inside 50 add")
+            '''Set current quota == current_quota + 50GB'''
+            current_thresh = int(quota_info['quotas'][0]['thresholds']['hard'])
+            print(current_thresh)
+            if space_add is not None:
+                if space_add < 50:
+                    space_add = 50
+                tool.update_quota(name, current_thresh, plus_gb=int(space_add))
+            else:
+                tool.update_quota(name, current_thresh)
                 space_add = 50
-            tool.update_quota(name, current_thresh, plus_gb=int(space_add))
-        else:
-            print("Inside else")
-            tool.update_quota(name, current_thresh)
-            space_add = 50
 
-        '''Query for new quota size / convert to GB'''
-        new_quota_info = tool.get_quota_info(name)
-        new_quota_thresh = int(new_quota_info['quotas'][0]['thresholds']['hard'])
-        new_thresh_GB = utils.convert_to_GB(new_quota_thresh)
+            '''Query for new quota size / convert to GB'''
+            new_quota_info = tool.get_quota_info(name)
+            new_quota_thresh = int(new_quota_info['quotas'][0]['thresholds']['hard'])
+            new_thresh_GB = utils.convert_to_GB(new_quota_thresh)
 
-        #except:
-        #    return render_template('404.html', error="Could not add space to quota....")
+        except:
+            return render_template('404.html', error="Could not add space to quota....")
 
         '''Add data to database'''
         quota_add = Quota_Update.create(
@@ -196,13 +193,11 @@ def cost():
             'quota_after': new_quota_thresh,
             'quota_path': quota_info['quotas'][0]['path']
         }
-
-        email_status = utils.send_email(cost_dict, config['mail_server'])
+        email_status = utils.send_email(cost_dict)
 
         return render_template('finish.html', name=name,
                                new_limit=new_thresh_GB, email_status=email_status)
 
-    print(myform.errors)
     return render_template('cost.html', form=myform,
                            btn_txt="Add Space", title="Enter Customer Name & Cost Center")
 
